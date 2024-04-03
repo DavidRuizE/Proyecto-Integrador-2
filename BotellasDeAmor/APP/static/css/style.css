@@ -1,0 +1,216 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"] {
+    -webkit-appearance: none;
+}
+
+body {
+    background-color: white;
+    height: 3000px;
+    /*font-family: "EmpiricRoman", serif;*/
+    padding-top: 60px;
+    font-family: "Rubik", sans-serif;
+}
+
+
+.header{
+    background-color: #fd595a;
+    position: fixed;
+    top:0px;
+    z-index: 10000;
+    width: 100%;
+}
+
+.nav-container {
+    display: flex;
+    font-size: 18px;
+    justify-content: space-between;
+}
+
+.main{
+    margin-top: 80px;
+}
+
+.heading{
+    color: black;
+    font-size: 36px;
+    margin-bottom: 24px;
+    text-align: right;
+}
+
+.alert{
+    width: 100%;
+    background-color: black;
+    height: 40px;
+    margin-top: -73px;
+    margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-top: 0.5px solid white;
+}
+
+.alert p{
+    color: white;
+    font-size: 19px;
+    padding-top: 7px;
+}
+
+
+
+.text{
+    line-height: 1.6;
+    font-size: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.nav-items {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+}
+
+
+.itemleft {
+    left: 0;
+    padding: 5px; /* Push the left item to the left */
+}
+
+.itemsright{
+    right: 0;/* Add some spacing between items */
+    padding: 5px;
+}
+
+/* Style the links inside the navigation bar */
+.nav-items a {
+    color: #f2f2f2;
+    padding: 16px 16px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+
+.itemsright a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+}
+/* Change the color of links on hover */
+.nav-items a{
+    display: inline-block;
+    position: relative;
+}
+
+.itemsright a{
+    display: inline-block;
+    position: relative;
+}
+
+.nav-items a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 30%;
+    left: 0;
+    background-color: white;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.itemsright a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 30%;
+    left: 0;
+    background-color: white;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+.nav-items a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.itemsright a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Add a color to the active/current link */
+.nav-container a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 700px;
+    padding: 40px 20px 20px 20px;
+    
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.singup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 700px;
+    padding: 40px 20px 20px 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.LOGO-LOGIN{
+    padding: 60px 50px 40px 50px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns with equal width */
+    gap: 20px; /* Gap between grid items */
+    margin:3% 15%;
+}
+
+.input-field input{
+    position: relative;
+    width: 555px;
+    height: 52px;
+    padding: 0 18px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.input-field{
+    position: relative;
+    margin-top: 2px;
+    margin-bottom: 40px;
+}
+
+.btn-registro{
+    width: 550px;
+    height: 52px;
+    background-color: rgb(45, 45, 255);
+    color: white;
+    border: 1px rgb(45, 45, 255);
+    border-radius: 5px;
+    cursor: pointer;
+}

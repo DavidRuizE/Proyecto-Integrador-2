@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botellas de amor</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Grenze:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <div class="itemleft">
+                <a href="{% url 'home' %}"><img width="115" height="67" src="https://botellasdeamor.org/wp-content/uploads/2023/05/lnogo-de-botellas-de-amor.webp" class="custom-logo" alt="Botellas de Amor" decoding="async"></a>
+            </div>
+            <div class="nav-items">
+            </div>
+            <div class="itemsright">
+                {% if user.is_authenticated %}
+                    
+                    <a href="{% url 'logout' %}"> Cerrar Sesión</i></a>
+                {% else %}
+                    <a href="{% url 'login' %}"><i class="fa-regular fa-user"></i></a>
+                {% endif %}
+                </div>
+        </div>
+    </header>
+
+
+    <main class="main">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert"><p> {{message}} </p></div>
+        {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+
+</html>
