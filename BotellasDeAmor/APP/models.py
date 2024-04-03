@@ -58,6 +58,7 @@ class Foto(models.Model):
     PHOTO_CHOICES=[
         ("Recolección", "Recolección"),
         ("Descarga", "Descarga"),
+        ("Camion Basura","Camion De Basura"),
     ]
     name = models.CharField(max_length=255, default='')
     image = models.ImageField(upload_to='uploads/product/')

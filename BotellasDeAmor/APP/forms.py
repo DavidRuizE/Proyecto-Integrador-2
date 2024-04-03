@@ -7,7 +7,7 @@ from django import forms
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email', 'name', 'password1', 'password2' ) 
+        fields = ('name', 'email', 'password1', 'password2' ) 
 
     def clean_email(self):
         email=self.cleaned_data['email'].lower()
@@ -15,7 +15,7 @@ class SignUpForm(UserCreationForm):
             user = User.objects.get(email=email)
         except Exception as e:
             return email
-        raise forms.ValidationError(f'Email {email} no es valido')
+        raise forms.ValidationError(f'Email {email} ya se encuentra en uso')
     
     def clean_name(self):
         name=self.cleaned_data['name'].lower()
@@ -23,7 +23,7 @@ class SignUpForm(UserCreationForm):
             user = User.objects.get(name=name)
         except Exception as e:
             return name
-        raise forms.ValidationError(f'Email {name} no es valido')
+        raise forms.ValidationError(f'El nombre {name} ya se encuentra en uso')
     
 class fotoForm(forms.ModelForm):
     class Meta:

@@ -20,11 +20,15 @@
         
         <p>Seleccione por favo la foto a subir</p>
         <div class="input-field"><input type="file" id="image" name="image" accept="image/*" required><br><br> </div>
-        
-        <p>Seleccione el género:</p>
+        <!--  <div class="input-field"> -->
+        <!--            <input type="file" id="image" name="image" accept="image/*" capture="environment" required> -->
+        <!--            <br><br>-->
+        <!--          </div>   La funcionalidad de capture está principalmente orientada a dispositivos móviles.-->
+        <p>Seleccione el tipo de foto a subir</p>
         <select id="gender" name="gender" required>
-            <option value="hombre">Recolección</option>
-            <option value="mujer">Descarga</option>
+            <option value="Recolección">Recolección</option>
+            <option value="Descarga">Descarga</option>
+            <option value="Camion Basura">Camion de Basura</option>
         </select><br><br>
         
         <label for="is_sale">Is Sale:</label><br>
