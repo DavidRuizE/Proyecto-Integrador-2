@@ -29,10 +29,11 @@
             </div>
             <div class="itemsright">
                 {% if user.is_authenticated %}
-                    
-                    <a href="{% url 'logout' %}"> Cerrar Sesión</i></a>
+                <a href="{% url 'addform' %}"><i class="fa fa-upload" aria-hidden="true" style="font-size: 30px;"></i>
+                <a href="{% url 'logout' %}"> Cerrar Sesión</i></a>
                 {% else %}
-                    <a href="{% url 'login' %}"><i class="fa-regular fa-user"></i></a>
+                    <a href="{% url 'login' %}"><i class="fa-regular fa-user" style="font-size: 30px;"></i></a>
+                    </a>
                 {% endif %}
                 </div>
         </div>

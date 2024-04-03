@@ -2,42 +2,37 @@
 {% load static %}
 {% block content %}
 <div class="registro-salida">
-    <h1 class="heading">Añadir Producto </h1>
-    <p class="text" >Por favor, llene los siguientes campos para añadir su producto.</p>
-    <br>
-    <br>
-    <br>
-    <form method="POST" action="{% url 'addform' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% if form.errors %}
-        <div class="alert alert-danger">
-            <strong>Error:</strong> {{ form.errors }}
-        </div>
-        {% endif %}
-        <div class="input-field"><input type="text" id="name" name="name" required placeholder="Nombre de quien toma la foto"><br><br> </div>
+    <div class="fotosubir">
 
-        <div class="input-field"><input type="number" id="price" name="price" min="0" required placeholder="Precio" > <br><br> </div>
-        
-        <p>Seleccione por favo la foto a subir</p>
-        <div class="input-field"><input type="file" id="image" name="image" accept="image/*" required><br><br> </div>
-        <!--  <div class="input-field"> -->
-        <!--            <input type="file" id="image" name="image" accept="image/*" capture="environment" required> -->
-        <!--            <br><br>-->
-        <!--          </div>   La funcionalidad de capture está principalmente orientada a dispositivos móviles.-->
-        <p>Seleccione el tipo de foto a subir</p>
-        <select id="gender" name="gender" required>
-            <option value="Recolección">Recolección</option>
-            <option value="Descarga">Descarga</option>
-            <option value="Camion Basura">Camion de Basura</option>
-        </select><br><br>
-        
-        <label for="is_sale">Is Sale:</label><br>
-        <div class="input-field"><input type="checkbox" id="is_sale" name="is_sale"><br><br>
-        
-
-        <div class="input-field"><input type="number" id="sale_price" name="sale_price" min="0" placeholder="Precio En Descuento"><br><br> </div>
-        
-        <button class="btn-registro" type="submit">Añadir producto</button>
-    </form>
+        <h1 class="heading">Añadir Producto </h1>
+        <p class="text" >Por favor, llene los siguientes campos para añadir su producto.</p>
+        <br>
+        <br>
+        <br>
+        <form method="POST" action="{% url 'addform' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Error:</strong> {{ form.errors }}
+            </div>
+            {% endif %}
+            <div class="input-field"><input type="text" id="name" name="name" required placeholder="Nombre de quien toma la foto"><br><br> </div>
+            
+            <p>Seleccione por favo la foto a subir</p>
+            <!-- <div class="input-field"><input type="file" id="image" name="image" accept="image/*" required><br><br> </div> -->
+            <!--  <div class="input-field"> -->
+            <input type="file" id="image" name="image" accept="image/*" capture="environment" required>
+            <!--            <br><br>-->
+            <!--          </div>   La funcionalidad de capture está principalmente orientada a dispositivos móviles.-->
+            <p>Seleccione el tipo de foto a subir</p>
+            <select id="photoType" name="photoType" required>
+                <option value="Recolección">Recolección</option>
+                <option value="Descarga">Descarga</option>
+                <option value="Camion Basura">Camion de Basura</option>
+            </select><br><br>
+            
+            <button class="btn-registro" type="submit">Subir Foto</button>
+        </form>
+    </div>
 </div
 {% endblock %}
