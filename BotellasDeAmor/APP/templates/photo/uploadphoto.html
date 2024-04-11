@@ -18,18 +18,25 @@
             {% endif %}
             <div class="input-field"><input type="text" id="name" name="name" required placeholder="Nombre de quien toma la foto"><br><br> </div>
             
-            <p>Seleccione por favo la foto a subir</p>
-            <!-- <div class="input-field"><input type="file" id="image" name="image" accept="image/*" required><br><br> </div> -->
-            <!--  <div class="input-field"> -->
-            <input type="file" id="image" name="image" accept="image/*" capture="environment" required>
-            <!--            <br><br>-->
-            <!--          </div>   La funcionalidad de capture está principalmente orientada a dispositivos móviles.-->
-            <p>Seleccione el tipo de foto a subir</p>
-            <select id="photoType" name="photoType" required>
-                <option value="Recolección">Recolección</option>
-                <option value="Descarga">Descarga</option>
-                <option value="Camion Basura">Camion de Basura</option>
-            </select><br><br>
+            
+            <div class="input-field">
+                <p>Seleccione por favo la foto a subir</p>
+                <!-- <div class="input-field"><input type="file" id="image" name="image" accept="image/*" required><br><br> </div> -->
+                <!--  <div class="input-field"> -->
+                <input type="file" id="image" name="image" accept="image/*" capture="environment" required>
+                <!--            <br><br>-->
+                <!--          </div>   La funcionalidad de capture está principalmente orientada a dispositivos móviles.-->
+            </div>
+            
+            <div class="input-field">
+                
+                <p>Seleccione el tipo de foto a subir</p>
+                <select id="photoType" name="photoType" required>
+                    <option value="Recolección">Recolección</option>
+                    <option value="Descarga">Descarga</option>
+                    <option value="Camion Basura">Camion de Basura</option>
+                </select><br><br>
+            </div>
             
             <button class="btn-registro" type="submit">Subir Foto</button>
         </form>

@@ -20,8 +20,18 @@ from django.views.generic import UpdateView, DeleteView
 
 # Create your views here.
 
-class homePageView(TemplateView):
-    template_name = 'core/home.html'
+
+def homePageView(request):
+    filter_option = request.GET.get('filter')
+
+    if filter_option == 'recent':
+        photos = Foto.objects.order_by('-date')
+    elif filter_option == 'oldest':
+        photos = Foto.objects.order_by('date')
+    else:
+        photos = Foto.objects.all()
+
+    return render(request, 'core/home.html', {'photo_uploads': photos})
 
 def loginPageView(request):
     if request.method=="POST":

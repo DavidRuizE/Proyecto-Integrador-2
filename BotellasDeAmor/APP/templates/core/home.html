@@ -1,5 +1,67 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-<h2 style="text-align: center;" >Entrega sprint 1</h2>
+    
+<!-- Filter options -->
+<style>
+        body{
+            text-align: center;
+        }
+        table {
+            width: 90%; /* Set table width to 90% of the page */
+            border-collapse: collapse; /* Collapse borders */
+            margin: 20px auto; /* Center the table */
+            border-top: 3px solid #fd595a; /* Top border color */
+            border-bottom: 3px solid #fd595a; /* Bottom border color */
+        }
+        th, td {
+            padding: 10px; /* Add padding to cells */
+            border-bottom: 1px solid #fd595a; /* Bottom border color for each cell */
+        }
+        th {
+            background-color: #fd595a; /* Header background color */
+            color: white; /* Header text color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Photo Uploads</h1>
+    
+    <!-- Filter options -->
+    <form action="{% url 'home' %}" method="GET">
+        <label for="filter">Filter:</label>
+        <select name="filter" id="filter">
+            <option value="">All</option>
+            <option value="recent">De nuevas a viejas</option>
+            <option value="oldest">De viejas a NUevas</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Table to display photo uploads -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Photo Type</th>
+                <th>View Image</th> <!-- New column for the button -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for photo in photo_uploads %}
+            <tr>
+                <td>{{ photo.name }}</td>
+                <td>{{ photo.date }}</td>
+                <td>{{ photo.place }}</td>
+                <td>{{ photo.get_photoType_display }}</td>
+                <td>
+                    <a href="{{ photo.image.url }}" target="_blank">View</a> <!-- Button to view image -->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
 {% endblock %}
