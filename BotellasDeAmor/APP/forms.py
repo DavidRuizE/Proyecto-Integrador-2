@@ -28,9 +28,8 @@ class SignUpForm(UserCreationForm):
 class fotoForm(forms.ModelForm):
     class Meta:
         model = Foto
-        fields = ['name', 'image', 'photoType']
+        fields = ['image', 'photoType']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del empleado'}),
             'image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'photoType': forms.Select(attrs={'class': 'form-control'}),
         }

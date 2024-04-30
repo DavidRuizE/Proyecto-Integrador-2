@@ -73,12 +73,19 @@ def singupView(request):
 
     return render(request, 'user/singup.html', {'form': form})
 
+@login_required
 def uploadPhotoPageView(request):
     if request.method == 'POST':
         form = fotoForm(request.POST, request.FILES)
-        print(request.FILES)
         if form.is_valid():
-            form.save()
+            foto = form.save(commit=False)
+            foto.name = request.user.get_full_name()  # Utilizar el nombre completo del usuario
+            foto.place = f"{request.POST.get('latitude')}, {request.POST.get('longitude')}"
+            latitude = request.POST.get('latitude')
+            longitude = request.POST.get('longitude')
+            print("Latitude:", latitude, "Longitude:", longitude)  # Añadir para depuración
+            foto.place = f"{latitude}, {longitude}"
+            foto.save()
             return redirect('home')
     else:
         form = fotoForm()

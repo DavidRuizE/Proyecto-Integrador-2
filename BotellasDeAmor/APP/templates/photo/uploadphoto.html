@@ -1,45 +1,97 @@
-{% extends 'core/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'core/base.html' %} {% load static %} {% block content %}
 <div class="registro-salida">
-    <div class="fotosubir">
+  <div class="fotosubir">
+    <h1 class="heading">Añadir Producto</h1>
+    <p class="text">
+      Por favor, llene los siguientes campos para añadir su producto.
+    </p>
+    <br />
+    <br />
+    <br />
+    <form
+      method="POST"
+      action="{% url 'addform' %}"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %} {% if form.errors %}
+      <div class="alert alert-danger">
+        <strong>Error:</strong> {{ form.errors }}
+      </div>
+      {% endif %}
+      <input type="hidden" id="latitude" name="latitude" />
+      <input type="hidden" id="longitude" name="longitude" />
+      <div class="input-field">
+        <p>Seleccione por favor la foto a subir</p>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          accept="image/*"
+          capture="environment"
+          required
+        />
+      </div>
 
-        <h1 class="heading">Añadir Producto </h1>
-        <p class="text" >Por favor, llene los siguientes campos para añadir su producto.</p>
-        <br>
-        <br>
-        <br>
-        <form method="POST" action="{% url 'addform' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% if form.errors %}
-            <div class="alert alert-danger">
-                <strong>Error:</strong> {{ form.errors }}
-            </div>
-            {% endif %}
-            <div class="input-field"><input type="text" id="name" name="name" required placeholder="Nombre de quien toma la foto"><br><br> </div>
-            
-            
-            <div class="input-field">
-                <p>Seleccione por favo la foto a subir</p>
-                <!-- <div class="input-field"><input type="file" id="image" name="image" accept="image/*" required><br><br> </div> -->
-                <!--  <div class="input-field"> -->
-                <input type="file" id="image" name="image" accept="image/*" capture="environment" required>
-                <!--            <br><br>-->
-                <!--          </div>   La funcionalidad de capture está principalmente orientada a dispositivos móviles.-->
-            </div>
-            
-            <div class="input-field">
-                
-                <p>Seleccione el tipo de foto a subir</p>
-                <select id="photoType" name="photoType" required>
-                    <option value="Recolección">Recolección</option>
-                    <option value="Descarga">Descarga</option>
-                    <option value="Camion Basura">Camion de Basura</option>
-                </select><br><br>
-            </div>
-            
-            <button class="btn-registro" type="submit">Subir Foto</button>
-        </form>
-    </div>
-</div
+      <div class="input-field">
+        <p>Seleccione el tipo de foto a subir</p>
+        <select id="photoType" name="photoType" required>
+          <option value="Recolección">Recolección</option>
+          <option value="Descarga">Descarga</option>
+          <option value="Camion Basura">Camión de Basura</option></select
+        ><br /><br />
+      </div>
+
+      <button class="btn-registro" type="submit">Subir Foto</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+    function getLocation() {
+      if (navigator.geolocation) {
+        // Solicitar la ubicación con alta precisión
+        navigator.geolocation.getCurrentPosition(showPosition, showError, {
+          maximumAge: 60000, // Aceptar una posición almacenada hace hasta 60 segundos
+          timeout: 15000, // Esperar hasta 15 segundos para obtener una posición
+          enableHighAccuracy: true, // Solicitar la precisión más alta posible
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showPosition(position) {
+      document.getElementById("latitude").value = position.coords.latitude;
+      document.getElementById("longitude").value = position.coords.longitude;
+      console.log(
+        "Location accuracy: " + position.coords.accuracy + " meters."
+      );
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          console.log("User denied the request for Geolocation.");
+          alert("Please enable location services and try again.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          console.log("Location information is unavailable.");
+          alert("Location information is unavailable. Please try again.");
+          break;
+        case error.TIMEOUT:
+          console.log("The request to get user location timed out.");
+          alert("Location request timed out. Please try again.");
+          break;
+        case error.UNKNOWN_ERROR:
+          console.log("An unknown error occurred.");
+          alert("An unknown error occurred with geolocation.");
+          break;
+      }
+    }
+
+    getLocation();
+  });
+</script>
+
 {% endblock %}
