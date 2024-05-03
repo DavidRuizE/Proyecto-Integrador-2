@@ -22,23 +22,58 @@
             background-color: #fd595a; /* Header background color */
             color: white; /* Header text color */
         }
+        form {
+        margin: 20px;
+        }
+        input, select, button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            border: 1px solid black; 
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        button, .button { /* Aplicar estilos similares a botones y enlaces con clase 'button' */
+            background-color: #fd595a;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover, .button:hover {
+            background-color: #e05353; /* Un poco más oscuro cuando se hace hover */
+        }
+        .button { /* Estilos específicos para enlaces que actúan como botones */
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 15px;
+        }
     </style>
 </head>
 <body>
-    <h1>Photo Uploads</h1>
+    {% if user.is_authenticated and user.is_superuser %}
+    
+    <h1>Historial de Fotos</h1>
     
     <!-- Filter options -->
     <form action="{% url 'home' %}" method="GET">
-        <label for="filter">Filter:</label>
+        <label for="filter">Filtros:</label>
         <select name="filter" id="filter">
-            <option value="">All</option>
+            <option value="">Todas</option>
             <option value="recent">De nuevas a viejas</option>
-            <option value="oldest">De viejas a NUevas</option>
+            <option value="oldest">De viejas a nuevas</option>
         </select>
-        <button type="submit">Filter</button>
+        <select name="photoType" id="photoType">
+            <option value="">Todos los tipos</option>
+            <option value="Recolección" {% if request.GET.photoType == "Recolección" %}selected{% endif %}>Recolección</option>
+            <option value="Descarga" {% if request.GET.photoType == "Descarga" %}selected{% endif %}>Descarga</option>
+            <option value="Camion Basura" {% if request.GET.photoType == "Camion Basura" %}selected{% endif %}>Camión De Basura</option>
+        </select>
+        <input type="text" name="name" placeholder="Buscar por nombre" value="{{ request.GET.name }}">
+        <button type="submit">Filtrar</button>
+        <a href="{% url 'home' %}" class="button">Resetear</a>
     </form>
 
     <!-- Table to display photo uploads -->
+   
+    {% if photo_uploads %}
     <table border="1">
         <thead>
             <tr>
@@ -46,7 +81,7 @@
                 <th>Date</th>
                 <th>Location</th>
                 <th>Photo Type</th>
-                <th>View Image</th> <!-- New column for the button -->
+                <th>View Image</th>
             </tr>
         </thead>
         <tbody>
@@ -56,12 +91,30 @@
                 <td>{{ photo.date }}</td>
                 <td>{{ photo.place }}</td>
                 <td>{{ photo.get_photoType_display }}</td>
-                <td>
-                    <a href="{{ photo.image.url }}" target="_blank">View</a> <!-- Button to view image -->
-                </td>
+                <td><a href="{{ photo.image.url }}" target="_blank">View</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <br>
+    <p>No hay resultados con esos filtros.</p>
+    {% endif %}
+    {% elif user.is_authenticated %}
+        <div style="text-align: center;">
+            <h1>Bienvenidos a Botellas de Amor</h1>
+            <br>
+            <br>
+            <a href="{% url 'addform' %}" class="button">Subir Foto</a>
+        </div>
+    {% else %}
+    <h1>Bienvenidos a Botellas de Amor</h1>
+    <br>
+    <br>
+    <h3> Por favor inicie sesión:</h3>
+    <br>
+    <a href="{% url 'login' %}" class="button">Iniciar sesión</a>
+    {% endif %}
+
 </body>
 {% endblock %}

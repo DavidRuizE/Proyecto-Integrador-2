@@ -23,16 +23,23 @@ from django.views.generic import UpdateView, DeleteView
 
 def homePageView(request):
     filter_option = request.GET.get('filter')
+    name_query = request.GET.get('name')
+    photo_type_query = request.GET.get('photoType')
+
+    photos = Foto.objects.all()
 
     if filter_option == 'recent':
-        photos = Foto.objects.order_by('-date')
+        photos = photos.order_by('-date')
     elif filter_option == 'oldest':
-        photos = Foto.objects.order_by('date')
-    else:
-        photos = Foto.objects.all()
+        photos = photos.order_by('date')
+
+    if name_query:
+        photos = photos.filter(name__icontains=name_query)
+
+    if photo_type_query:
+        photos = photos.filter(photoType=photo_type_query)
 
     return render(request, 'core/home.html', {'photo_uploads': photos})
-
 def loginPageView(request):
     if request.method=="POST":
         email = request.POST.get("email", "")
