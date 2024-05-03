@@ -25,6 +25,8 @@ def homePageView(request):
     filter_option = request.GET.get('filter')
     name_query = request.GET.get('name')
     photo_type_query = request.GET.get('photoType')
+    date_from = request.GET.get('date_from')
+    date_to = request.GET.get('date_to')
 
     photos = Foto.objects.all()
 
@@ -38,6 +40,12 @@ def homePageView(request):
 
     if photo_type_query:
         photos = photos.filter(photoType=photo_type_query)
+
+    if date_from and date_to:
+    # Convertir las cadenas de fecha a objetos datetime
+        date_from_obj = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+        date_to_obj = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+        photos = photos.filter(date__range=[date_from_obj, date_to_obj])
 
     return render(request, 'core/home.html', {'photo_uploads': photos})
 def loginPageView(request):

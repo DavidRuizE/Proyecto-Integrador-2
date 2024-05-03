@@ -67,6 +67,8 @@
             <option value="Camion Basura" {% if request.GET.photoType == "Camion Basura" %}selected{% endif %}>Camión De Basura</option>
         </select>
         <input type="text" name="name" placeholder="Buscar por nombre" value="{{ request.GET.name }}">
+        <input type="date" name="date_from" placeholder="Desde" value="{{ request.GET.date_from }}">
+        <input type="date" name="date_to" placeholder="Hasta" value="{{ request.GET.date_to }}">
         <button type="submit">Filtrar</button>
         <a href="{% url 'home' %}" class="button">Resetear</a>
     </form>
@@ -111,7 +113,7 @@
     <h1>Bienvenidos a Botellas de Amor</h1>
     <br>
     <br>
-    <h3> Por favor inicie sesión:</h3>
+    <h3> Por favor inicie sesión</h3>
     <br>
     <a href="{% url 'login' %}" class="button">Iniciar sesión</a>
     {% endif %}

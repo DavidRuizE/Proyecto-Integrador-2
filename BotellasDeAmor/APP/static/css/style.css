@@ -238,22 +238,31 @@ body {
   /* Estilos comunes para formularios de inicio de sesión y registro */
   .login, .singup {
       width: 100%; /* Ajustar el ancho para más espacio */
-      margin: 10px auto; /* Centrar y dar más espacio superior e inferior */
-      padding: 100px 10px; /* Reducir el padding lateral */
+      margin: 0%; /* Centrar y dar más espacio superior e inferior *//* Reducir el padding lateral */
+      padding: 0%;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Añadir sombra para definición */
       display: flex;
       flex-direction: column;
-      align-items: center; /* Asegurarse que todo el contenido esté centrado */
+      align-items: center; 
+      justify-content: center;
+      text-align: center;/* Asegurarse que todo el contenido esté centrado */
   }
 
+
+  
   .input-field input, .btn-registro {
       width: 100%; /* Ajustar los campos para llenar el contenedor */
       padding: 12px; /* Aumentar padding para facilidad de uso */
       margin-bottom: 10px; /* Aumentar margen entre campos */
   }
+  .input-field-registro input, .btn-registro {
+    width: 100%; /* Ajustar los campos para llenar el contenedor */
+    padding: 12px; /* Aumentar padding para facilidad de uso */
+    margin-bottom: 10px; /* Aumentar margen entre campos */
+}
 
   .btn-registro {
-      background-color: #3333ff; /* Ajustar el color para visibilidad */
+      background-color: #fd595a; /* Ajustar el color para visibilidad */
       color: white;
   }
 
@@ -273,6 +282,7 @@ body {
     display: flex;
     justify-content: center; /* Centrar el logo horizontalmente */
     align-items: center; /* Centrar el logo verticalmente */
+    text-align: center; 
     margin: 20px 0; /* Aumentar el margen superior e inferior para dar más espacio */
 }
 
@@ -282,7 +292,8 @@ body {
 }
 
   .main, .heading, .text {
-      padding: 0% 0%; /* Reducir padding para encabezados y texto */
+      padding: 0% 0%;
+      text-align: center /* Reducir padding para encabezados y texto */
   }
 
   /* Estilos para ajustar los encabezados en dispositivos pequeños */
