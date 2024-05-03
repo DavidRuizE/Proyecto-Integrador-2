@@ -287,7 +287,7 @@ body {
 }
 
 .LOGO-LOGIN img {
-    width: 60%; /* Ajustar el ancho del logo al 60% del contenedor .LOGO-LOGIN */
+    width: 200%; /* Ajustar el ancho del logo al 60% del contenedor .LOGO-LOGIN */
     height: auto; /* Mantener la proporción del logo */
 }
 
