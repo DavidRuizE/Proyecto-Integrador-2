@@ -1,4 +1,6 @@
-{% extends 'core/base.html' %} {% load static %} {% block content %}
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
 <div class="registro-salida">
   <div class="fotosubir">
     <h1 class="heading">Añadir Foto</h1>
@@ -13,34 +15,45 @@
       action="{% url 'addform' %}"
       enctype="multipart/form-data"
     >
-      {% csrf_token %} {% if form.errors %}
+      {% csrf_token %}
+      {% if form.errors %}
       <div class="alert alert-danger">
         <strong>Error:</strong> {{ form.errors }}
       </div>
       {% endif %}
       <input type="hidden" id="latitude" name="latitude" />
       <input type="hidden" id="longitude" name="longitude" />
+
+      <div class="input-field">
+        <p>Ingrese el número de consecutivo</p>
+        {{ form.consecutive_number }}
+      </div>
+
       <div class="input-field">
         <p>Seleccione por favor la foto a subir</p>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          capture="environment"
-          required
-        />
+        {{ form.image }}
       </div>
 
       <div class="input-field">
         <p>Seleccione el tipo de foto a subir</p>
-        <select id="photoType" name="photoType" required>
-          <option value="Recolección">Recolección</option>
-          <option value="Descarga">Descarga</option>
-          <option value="Camion Basura">Camión de Basura</option></select
-        ><br /><br />
+        {{ form.photoType }}
       </div>
 
+      <div class="input-field" id="weightField" style="display: none;">
+        <p>Ingrese el peso</p>
+        {{ form.weight }}
+      </div>
+
+      <div class="input-field" id="puntoAcopioField" style="display: none;">
+        <p>Ingrese el punto de acopio</p>
+        {{ form.punto_acopio }}
+      </div>
+
+      <div class="input-field">
+        <p>Seleccione el tipo de material</p>
+        {{ form.material_type }}
+      </div>
+      
       <button class="btn-registro" type="submit">Subir Foto</button>
     </form>
   </div>
@@ -91,6 +104,27 @@
     }
 
     getLocation();
+
+    const photoTypeSelect = document.getElementById("id_photoType");
+    const weightField = document.getElementById("weightField");
+    const puntoAcopioField = document.getElementById("puntoAcopioField");
+
+    function toggleFields() {
+      const selectedType = photoTypeSelect.value;
+      if (selectedType === "Pesajes") {
+        weightField.style.display = "block";
+        puntoAcopioField.style.display = "none";
+      } else if (selectedType === "Puntos de acopio") {
+        puntoAcopioField.style.display = "block";
+        weightField.style.display = "none";
+      } else {
+        weightField.style.display = "none";
+        puntoAcopioField.style.display = "none";
+      }
+    }
+
+    photoTypeSelect.addEventListener("change", toggleFields);
+    toggleFields(); // Inicializa el estado al cargar la página
   });
 </script>
 

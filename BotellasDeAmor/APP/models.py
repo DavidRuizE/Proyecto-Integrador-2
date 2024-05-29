@@ -52,18 +52,35 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
+    
+    
+class Merchandise(models.Model):
+    consecutive_number = models.PositiveIntegerField(unique=True)
+    weight = models.FloatField(default=0)  # Asegúrate de que el valor por defecto sea 0
 
+    def __str__(self):
+        return f"Merchandise {self.consecutive_number}"
 
 class Foto(models.Model):
-    PHOTO_CHOICES=[
-        ("Recolección", "Recolección"),
-        ("Descarga", "Descarga"),
-        ("Camion Basura","Camion De Basura"),
+    PHOTO_CHOICES = [
+        ("Remisión", "Remisión"),
+        ("Pesajes", "Pesajes"),
+        ("Descargue", "Descargue"),
+        ("Puntos de acopio", "Puntos de acopio"),
+    ]
+    MATERIAL_CHOICES = [
+        ("Botellas de Amor", "Botellas de Amor"),
+        ("Otros Materiales", "Otros Materiales"),
     ]
     name = models.CharField(max_length=255, default='')
     image = models.ImageField(upload_to='uploads/product/')
-    photoType = models.CharField(max_length=255, choices=PHOTO_CHOICES, default="Recolección") 
+    photoType = models.CharField(max_length=255, choices=PHOTO_CHOICES, default="Remisión")
     date = models.DateTimeField(auto_now_add=True)
     place = models.CharField(max_length=255)
+    merchandise = models.ForeignKey(Merchandise, on_delete=models.CASCADE)
+    punto_acopio = models.CharField(max_length=255, default='', blank=True)
+    weight = models.FloatField(null=True, blank=True)
+    material_type = models.CharField(max_length=255, choices=MATERIAL_CHOICES, default="Botellas de Amor")  # Nuevo campo
+
     def __str__(self):
         return self.name

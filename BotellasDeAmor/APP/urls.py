@@ -9,4 +9,5 @@ urlpatterns =[
     path("accede/", views.loginPageView, name= "login"),
     path("logout/", views.logoutPageView, name= "logout"),
     path("foto/anadir", views.uploadPhotoPageView, name="addform"),
+    path("reporte/excel/", download_excel_report, name="download_excel_report"),
 ]

@@ -40,7 +40,7 @@ body {
   color: black;
   font-size: 36px;
   margin-bottom: 24px;
-  text-align: right;
+  text-align: center; /* Asegurarse de que el texto del título esté centrado */
 }
 
 .alert p {
@@ -54,6 +54,7 @@ body {
   font-size: 16px;
   max-width: 1000px;
   margin: 0 auto;
+  text-align: center; /* Asegurarse de que el texto de la descripción esté centrado */
 }
 
 .nav-items {
@@ -194,6 +195,16 @@ body {
   margin-bottom: 20px; /* Espacio entre campos de entrada */
 }
 
+.input-field p {
+  text-align: center; /* Centrar el texto de las etiquetas */
+  margin-bottom: 10px; /* Añadir espacio entre la etiqueta y el campo de entrada */
+}
+
+.input-field input[type="text"],
+.input-field input[type="password"],
+.input-field input[type="email"],
+.input-field input[type="tel"],
+.input-field input[type="number"],
 .input-field input[type="file"],
 .input-field select {
   width: 100%; /* Ancho del input file y select */

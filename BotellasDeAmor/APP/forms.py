@@ -25,11 +25,19 @@ class SignUpForm(UserCreationForm):
             return name
         raise forms.ValidationError(f'El nombre {name} ya se encuentra en uso')
     
-class fotoForm(forms.ModelForm):
+
+
+
+class FotoForm(forms.ModelForm):
+    consecutive_number = forms.IntegerField(label='Número de Consecutivo', required=True)
+    
     class Meta:
         model = Foto
-        fields = ['image', 'photoType']
+        fields = ['image', 'photoType', 'weight', 'punto_acopio', 'material_type']
         widgets = {
             'image': forms.FileInput(attrs={'class': 'form-control-file'}),
             'photoType': forms.Select(attrs={'class': 'form-control'}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control'}),
+            'punto_acopio': forms.TextInput(attrs={'class': 'form-control'}),
+            'material_type': forms.Select(attrs={'class': 'form-control'}),
         }

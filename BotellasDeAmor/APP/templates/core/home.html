@@ -1,10 +1,11 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load query_transform %}
 {% block content %}
-    
+
 <!-- Filter options -->
 <style>
-        body{
+        body {
             text-align: center;
         }
         table {
@@ -23,12 +24,12 @@
             color: white; /* Header text color */
         }
         form {
-        margin: 20px;
+            margin: 20px;
         }
         input, select, button {
             padding: 8px 15px;
             margin-right: 10px;
-            border: 1px solid black; 
+            border: 1px solid black;
             border-radius: 3px;
             font-size: 16px;
         }
@@ -45,7 +46,7 @@
             display: inline-block;
             padding: 8px 15px;
         }
-    </style>
+</style>
 </head>
 <body>
     {% if user.is_authenticated and user.is_superuser %}
@@ -54,7 +55,6 @@
     
     <!-- Filter options -->
     <form action="{% url 'home' %}" method="GET">
-        <label for="filter">Filtros:</label>
         <select name="filter" id="filter">
             <option value="">Todas</option>
             <option value="recent">De nuevas a viejas</option>
@@ -62,42 +62,64 @@
         </select>
         <select name="photoType" id="photoType">
             <option value="">Todos los tipos</option>
-            <option value="Recolección" {% if request.GET.photoType == "Recolección" %}selected{% endif %}>Recolección</option>
-            <option value="Descarga" {% if request.GET.photoType == "Descarga" %}selected{% endif %}>Descarga</option>
-            <option value="Camion Basura" {% if request.GET.photoType == "Camion Basura" %}selected{% endif %}>Camión De Basura</option>
+            <option value="Remisión" {% if request.GET.photoType == "Remisión" %}selected{% endif %}>Remisión</option>
+            <option value="Pesajes" {% if request.GET.photoType == "Pesajes" %}selected{% endif %}>Pesajes</option>
+            <option value="Descargue" {% if request.GET.photoType == "Descargue" %}selected{% endif %}>Descargue</option>
+            <option value="Puntos de acopio" {% if request.GET.photoType == "Puntos de acopio" %}selected{% endif %}>Puntos de acopio</option>
         </select>
-        <input type="text" name="name" placeholder="Buscar por nombre" value="{{ request.GET.name }}">
+        <input type="number" name="consecutive_number" placeholder="Número de consecutivo" value="{{ request.GET.consecutive_number }}">
+        <input type="text" name="name" placeholder="Nombre" value="{{ request.GET.name }}">
         <input type="date" name="date_from" placeholder="Desde" value="{{ request.GET.date_from }}">
         <input type="date" name="date_to" placeholder="Hasta" value="{{ request.GET.date_to }}">
+        <input type="text" name="punto_acopio" placeholder="Punto de acopio" value="{{ request.GET.punto_acopio }}">
+        <select name="materialType" id="materialType">
+            <option value="">Todos los materiales</option>
+            <option value="Botellas de Amor" {% if request.GET.materialType == "Botellas de Amor" %}selected{% endif %}>Botellas de Amor</option>
+            <option value="Otros Materiales" {% if request.GET.materialType == "Otros Materiales" %}selected{% endif %}>Otros Materiales</option>
+        </select>
+        <br>
+        <br>
+
         <button type="submit">Filtrar</button>
         <a href="{% url 'home' %}" class="button">Resetear</a>
     </form>
 
     <!-- Table to display photo uploads -->
    
-    {% if photo_uploads %}
+    {% if grouped_photos %}
     <table border="1">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Photo Type</th>
-                <th>View Image</th>
+                <th>Consecutivo</th>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Ubicación</th>
+                <th>Tipo de Foto</th>
+                <th>Punto de Acopio</th>
+                <th>Peso</th>
+                <th>Ver Imagen</th>
             </tr>
         </thead>
         <tbody>
-            {% for photo in photo_uploads %}
-            <tr>
-                <td>{{ photo.name }}</td>
-                <td>{{ photo.date }}</td>
-                <td>{{ photo.place }}</td>
-                <td>{{ photo.get_photoType_display }}</td>
-                <td><a href="{{ photo.image.url }}" target="_blank">View</a></td>
-            </tr>
+            {% for consecutive_number, photos in grouped_photos.items %}
+                {% for photo in photos %}
+                <tr>
+                    {% if forloop.first %}
+                    <td rowspan="{{ photos|length }}">{{ consecutive_number }}</td>
+                    {% endif %}
+                    <td>{{ photo.name }}</td>
+                    <td>{{ photo.date }}</td>
+                    <td>{{ photo.place }}</td>
+                    <td>{{ photo.get_photoType_display }}</td>
+                    <td>{{ photo.punto_acopio }}</td>
+                    <td>{{ photo.weight }}</td>
+                    <td><a href="{{ photo.image.url }}" target="_blank">Ver</a></td>
+                </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>
+    <a href="{% url 'download_excel_report' %}?{% query_transform request.GET %}" class="button">Descargar Reporte</a> <!-- Botón de descarga -->
     {% else %}
     <br>
     <p>No hay resultados con esos filtros.</p>
@@ -117,6 +139,75 @@
     <br>
     <a href="{% url 'login' %}" class="button">Iniciar sesión</a>
     {% endif %}
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
+        function getLocation() {
+          if (navigator.geolocation) {
+            // Solicitar la ubicación con alta precisión
+            navigator.geolocation.getCurrentPosition(showPosition, showError, {
+              maximumAge: 60000, // Aceptar una posición almacenada hace hasta 60 segundos
+              timeout: 15000, // Esperar hasta 15 segundos para obtener una posición
+              enableHighAccuracy: true, // Solicitar la precisión más alta posible
+            });
+          } else {
+            alert("Geolocation is not supported by this browser.");
+          }
+        }
+
+        function showPosition(position) {
+          document.getElementById("latitude").value = position.coords.latitude;
+          document.getElementById("longitude").value = position.coords.longitude;
+          console.log(
+            "Location accuracy: " + position.coords.accuracy + " meters."
+          );
+        }
+
+        function showError(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.log("User denied the request for Geolocation.");
+              alert("Please enable location services and try again.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.log("Location information is unavailable.");
+              alert("Location information is unavailable. Please try again.");
+              break;
+            case error.TIMEOUT:
+              console.log("The request to get user location timed out.");
+              alert("Location request timed out. Please try again.");
+              break;
+            case error.UNKNOWN_ERROR:
+              console.log("An unknown error occurred.");
+              alert("An unknown error occurred with geolocation.");
+              break;
+          }
+        }
+
+        getLocation();
+
+        const photoTypeSelect = document.getElementById("photoType");
+        const weightField = document.getElementById("weightField");
+        const puntoAcopioField = document.getElementById("puntoAcopioField");
+
+        function toggleFields() {
+          const selectedType = photoTypeSelect.value;
+          if (selectedType === "Pesajes") {
+            weightField.style.display = "block";
+            puntoAcopioField.style.display = "none";
+          } else if (selectedType === "Puntos de acopio") {
+            puntoAcopioField.style.display = "block";
+            weightField.style.display = "none";
+          } else {
+            weightField.style.display = "none";
+            puntoAcopioField.style.display = "none";
+          }
+        }
+
+        photoTypeSelect.addEventListener("change", toggleFields);
+        toggleFields(); // Inicializa el estado al cargar la página
+      });
+    </script>
 
 </body>
 {% endblock %}
